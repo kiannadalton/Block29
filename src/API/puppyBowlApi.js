@@ -9,37 +9,34 @@ export const puppyBowlApi = createApi({
   // Define a base query function that all endpoints will use as the base of their request
   baseQuery: fetchBaseQuery({
     // The base URL for all requests
-    baseUrl: "https://fsa-puppy-bowl.herokuapp.com/api/2403-FTB-ET-WEB-PT/players"
+    baseUrl: "https://fsa-puppy-bowl.herokuapp.com/api/2403-FTB-ET-WEB-PT",
   }),
   // Define endpoints for our API service
   endpoints: (builder) => ({
     // Define an endpoint that fetches players
     fetchPlayers: builder.query({
-      query: () => `/`,
-      providesTags: ["players"],
+      query: () => `/players`,
+    }),
+
+    fetchPlayer: builder.query({
+      query: (id) => `/players/${id}`,
     }),
 
     addPlayer: builder.mutation({
       // The part of the URL that comes after the baseUrl for this specific endpoint
       query: (body) => ({
-        url: `/`,
+        url: `/players`,
         method: "POST",
         body,
       }),
-      invalidatesTags: ["players"],
     }),
-
-    updatePlayer: builder.mutation({
-      query: ({id, body})=> ({
-        url: `/${id}`,
-       method: "PUT",
-       body,
-     }),
-      invalidatesTags: ["players"], 
-    })
 
   }),
 });
 
 // Export hooks for each endpoint - in this case, a React hook that triggers the fetchPlayers query
-export const { useFetchPlayersQuery, useAddPlayerMutation, useUpdatePlayerMutation } = puppyBowlApi;
+export const { 
+  useFetchPlayersQuery, 
+  useFetchPlayerQuery, 
+  useAddPlayerMutation
+} = puppyBowlApi;

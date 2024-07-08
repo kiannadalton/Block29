@@ -1,7 +1,4 @@
-import { Routes, Route, NavLink } from 'react-router-dom'
-import AllPlayers from './AllPlayers'
-import SinglePlayer from './SinglePlayer'
-
+import { NavLink } from 'react-router-dom'
 
 function NavBar() {
 
@@ -11,8 +8,9 @@ function NavBar() {
  <div id="container">
 
 <div id="navbar" className='nav-links'>
-  <NavLink to="/">Home</NavLink>
-  <NavLink to="/:id">Single Player</NavLink>
+  <NavLink to="/players">All Players</NavLink>
+    {/* potentially something wrong here */}
+  <NavLink to="/players/:playerId">Single Player</NavLink>
 
 </div>
 

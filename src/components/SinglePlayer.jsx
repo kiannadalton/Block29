@@ -1,35 +1,61 @@
-import { useFetchPlayersQuery } from "../API/puppyBowlApi"
+import { useFetchPlayerQuery } from "../API/puppyBowlApi"
+import { useParams, useNavigate, Link } from "react-router-dom"
 
-import { useParams } from "react-router-dom"
+
+// useNavigate in return 
 
 function SinglePlayer() {
-    const { id } = useParams(); 
+    const { playerId } = useParams(); 
+    // const navigate = useNavigate();
 
-    // const singlePlayerID = puppyBowlApi.data.players.find((singlePlayer) => { 
-    //     return singlePlayer.id === parseInt(id);
-    // });
-    // console.log(puppyBowlApi.data)
+// displays id okay
+    // console.log("playerId", playerId);
+
+    // (id) ties it to See Details player
+    const { data ={}, error, isLoading } = useFetchPlayerQuery(playerId);
+
+    if (isLoading) {
+      return <div>
+                <p>Loading players...</p>
+            </div>
+    }
+  
+    // Failing here. Might need to initialize with a useState players?
+    // Show an error message if the fetch failed
+    if (error) {
+      console.log(error);
+      return  <div>
+                 <p>Whoops! Something went wrong. Please try again later.</p>
+              </div>
+    }
+
+        // console.log("player", data)
+    const player = data.data.player;
+
+
+    // console.log("player", player);
 
     return (
         <div className="singlePlayer">
-            <h1>Single Player</h1>
-            {/* <img src={SinglePlayerID.imageUrl} alt={SinglePlayerID.name}/>
-            {data.data.players.map((player) => (
-          // Use the player's ID as the key for this div
-          <div key={player.id} className="player-card">
-            {/* see if just id.key or something else to populate info */}
-            {/* <img src={player.imageUrl} alt={player.name}/>
 
+            {player &&
+            
+            <div key={player.id} className="player-card">
             
             <div className="player-details">
-              
-              <h2>  ${player.name} </h2> 
-              
-              <p>  ${player.breed} </p> 
-              
-              <p> ${player.status} </p>
-            </div> */}
+              <h2> Name: {player.name} </h2> 
+              <p> Player #: {player.id}</p>
+              <p> Breed: {player.breed} </p> 
+              <p> Status: {player.status} </p>
+              {/* <h2>Team: {player.team.name || "None"}</h2> */}
+            </div>
+
+            <img src={player.imageUrl} alt={player.name}/>
+
         </div>
-         )}
+            
+            }
+        </div>
+    )}
   
   export default SinglePlayer;

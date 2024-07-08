@@ -1,17 +1,17 @@
 
-
-function SearchBar() {
-
-
+const SearchBar = ({ searchParameter, setSearchParameter }) => {
     return (
-      <>
-        <div>
-        <h1>SearchBar</h1>
+      <div className="searchBar">
+        <label>
+          Search Player:   
+          {/* default type of input is text, so we don't need ot add type="text" */}
+          <input
+            value={searchParameter}
+            onChange={(event) => setSearchParameter(event.target.value)}
+          />
+        </label>
+      </div>
+    );
+  };
   
-        </div>
-          
-      </>
-    )
-  }
-  
-  export default SearchBar
+  export default SearchBar;

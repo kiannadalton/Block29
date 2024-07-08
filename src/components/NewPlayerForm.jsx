@@ -1,42 +1,50 @@
 import { useState } from "react"
+import { useAddPlayerMutation } from "../API/puppyBowlApi";
+import { useNavigate } from "react-router-dom";
 
-function NewPlayerForm() {
+const NewPlayerForm = () => {
+    const navigate = useNavigate();
+    const [addPlayer] = useAddPlayerMutation();
     // use ("") as initial state to represent empty string
-    const [playerName, setPlayerName] = useState("");
-    const [playerBreed, setPlayerBreed] = useState("");
-    const [playerImage, setPlayerImage] = useState("");
+    const [name, setName] = useState("");
+    const [breed, setBreed] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
 
-    const handleSubmit = async (name, breed, imageUrl) => {
+    const handleSubmit = async event => {
         event.preventDefault();
           
-          try {
-              const response = await fetch("https://fsa-puppy-bowl.herokuapp.com/api/2403-FTB-ET-WEB-PT/players",{
-              method: "POST",
-              headers: {"Content-Type": "application/json"},
-              body: JSON.stringify( {
-                          name,
-                          breed,
-                          imageUrl,
-                   })
-              });
-              const result = await response.json();
-              console.log(result);
-  
-              // clears inputs after we hit submit, stay within try {}
-              setPlayerName("");
-              setPlayerBreed("");
-              setPlayerImage("");
-          } catch (error) {
-              setError(error.message);
-          }};
+              const response = await addPlayer({name, breed, imageUrl}) 
+                // clears inputs after we hit submit
+                setName("");
+                setBreed("");
+                setImageUrl("");
+      
+                // sample response shows 'newPlayer' in api documentation
+                navigate(`/players/${response.data.data.newPlayer.id}`)
+              };
 
     return (
       <>
-        <div>
-        <h1>New Player Form</h1>
-  
+        <div className="new-player-form">
+            <h1>New Player Form</h1>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Name: <input value={name} onChange={(event)=> setName(event.target.value)} />
+                </label>
+
+                <label>
+                    Breed: <input value={breed} onChange={(event) => setBreed(event.target.value)} />
+                </label>
+
+                <label>
+                    Image URL:
+                    <input value={imageUrl} onChange={(event) => setImageUrl(event.target.value)}/>
+                </label>
+
+                <button>Submit</button>
+
+            </form>
         </div>
-          
       </>
     )
   }

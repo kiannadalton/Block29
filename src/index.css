@@ -92,6 +92,13 @@ header h1 {
 
 }
 
+.singlePlayer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+}
+
 img {
   width: 300px;
   margin: 5px;

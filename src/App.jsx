@@ -15,16 +15,15 @@ function App() {
      </nav>
 
     <br />
-
-    <div>
-      <AllPlayers />
-
-    </div>
         
     <Routes>
       <Route path="/players" element={<AllPlayers/>} />
       <Route path='/players/:playerId' element={<SinglePlayer />} />
     </Routes>  
+
+    <div>
+      <AllPlayers />
+    </div>
 
     </>
   )
